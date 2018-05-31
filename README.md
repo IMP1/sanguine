@@ -4,7 +4,7 @@ Sanguine is a computer game in development by Born For Joy.
 It is a remake of the classic game Snake. 
 It is an attempt to see through to completion a managable project.
 It's called Sanguine because 'anguine' is latin for snake and Sanguine is a cool
-word.
+word. B)
 
 ## Roadmap
 
