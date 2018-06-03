@@ -19,6 +19,10 @@ word. B)
 [X] `snake`:
     snake grows in finding food
 [ ] `map`:
+    obstacles on map
+[ ] `snake`:
+    snake dies on hitting obstacle (and self)
+[ ] `map`:
     ammunition spawns on the map
 [ ] `snake`:
     snake can shoot if it has bullets
