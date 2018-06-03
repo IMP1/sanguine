@@ -4,12 +4,13 @@ Map   = require 'cls_map'
 tick_duration = 0.1
 
 function love.load()
-    snake = Snake.new(4, 4, 3, 0)
-    timer = 0
-    map   = Map.new(20, 20)
+    player = Snake.new(4, 4, 3, 0)
+    snakes = {player}
+    timer  = 0
+    map    = Map.new(20, 20)
 end
 
-local function wrap_snake()
+local function wrap_snake(snake)
     local x, y = unpack(snake.head_position)
     if x < 1 then
         x = map.width
@@ -26,7 +27,7 @@ local function wrap_snake()
     snake.head_position = {x, y}
 end
 
-local function eat_food()
+local function eat_food(snake)
     local x, y = unpack(snake.head_position)
     local food, i = map:food_at(x, y)
     if food then
@@ -35,10 +36,17 @@ local function eat_food()
     end
 end
 
+local function handle_collisions(snake)
+    
+end
+
 local function tick()
-    snake:tick()
-    wrap_snake()
-    eat_food()
+    for _, snake in pairs(snakes) do
+        snake:tick()
+        wrap_snake(snake)
+        eat_food(snake)
+        handle_collisions(snake)
+    end
     map:tick()
 end
 
@@ -53,20 +61,22 @@ end
 
 function love.keypressed(key)
     if key == "up" then
-        snake:turn_to(3)
+        player:turn_to(3)
     end
     if key == "left" then
-        snake:turn_to(2)
+        player:turn_to(2)
     end
     if key == "down" then
-        snake:turn_to(1)
+        player:turn_to(1)
     end
     if key == "right" then
-        snake:turn_to(0)
+        player:turn_to(0)
     end
 end
 
 function love.draw()
     map:draw()
-    snake:draw()
+    for _, snake in pairs(snakes) do
+        snake:draw()
+    end
 end
