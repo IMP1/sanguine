@@ -8,35 +8,35 @@ word. B)
 
 ## Roadmap
 
-`snake`: 
+[X] `snake`: 
     can move a snake around the screen
-`map`: 
+[X] `map`: 
     maps have a grid
-`snake`,`map`: 
+[X] `snake`,`map`: 
     snakes loop round the map
-`map`:
+[ ] `map`:
     fruit and ammunition spawn on the map
-`snake`:
+[ ] `snake`:
     snake grows in finding food
-`snake`:
+[ ] `snake`:
     snake can shoot if it has bullets
-`snake`:
+[ ] `snake`:
     snake is split in two if hit by a bullet
-`game`:
+[ ] `game`:
     score exists, and increases upon eating food
-`game`:
+[ ] `game`:
     game over screen
-`game`:
+[ ] `game`:
     juice
         screenshake on losing
         screenshake on being shot
         particle effects on food, and eating, and being shot, and shooting, and
         bullets, and special tiles?
 
-`game`:
+[ ] `game`:
     menu screen
 
-`game`:
+[ ] `game`:
     customisable controls
 
 
