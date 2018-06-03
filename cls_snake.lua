@@ -38,7 +38,26 @@ function snake:turn_to(dir)
     self.next_direction = dir
 end
 
-function snake:tick()
+function snake:is_over(x, y)
+    if self:is_at(x, y) then 
+        return true 
+    end
+    for _, point in pairs(self.body) do
+        if x == point[1] and y == point[2] then
+            return true
+        end
+    end
+    return false
+end
+
+function snake:is_at(x, y)
+    if x == self.head_position[1] and y == self.head_position[2] then
+        return true
+    end
+    return false
+end
+
+function snake:tick(game)
     -- Turn
     if (self.direction % 2) ~= (self.next_direction % 2) then
         self.direction = self.next_direction
@@ -55,6 +74,10 @@ function snake:tick()
         dy = -1
     end
     local x, y = unpack(self.head_position)
+    if not game:is_clear(x + dx, y + dy) then
+        game:load()
+        return
+    end
     self.head_position = { x + dx, y + dy }
     local next_x, next_y = x, y
     for i = 1, #self.body do
@@ -62,7 +85,9 @@ function snake:tick()
         self.body[i] = { next_x, next_y }
         next_x, next_y = x, y
     end
-    self:grow(x, y)
+    if #self.to_grow > 0 then
+        self:grow(x, y)
+    end
 end
 
 function snake:draw()

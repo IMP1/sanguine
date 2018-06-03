@@ -18,9 +18,9 @@ word. B)
     fruit spawn on the map
 [X] `snake`:
     snake grows in finding food
-[ ] `map`:
+[X] `map`:
     obstacles on map
-[ ] `snake`:
+[X] `snake`:
     snake dies on hitting obstacle (and self)
 [ ] `map`:
     ammunition spawns on the map

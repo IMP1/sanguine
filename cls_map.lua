@@ -1,4 +1,5 @@
-local Food = require 'cls_food'
+local Food     = require 'cls_food'
+local Obstacle = require 'cls_obstacle'
 
 local map = {}
 map.__index = map
@@ -8,7 +9,11 @@ function map.new(width, height)
     setmetatable(self, map)
     self.width     = width
     self.height    = height
-    self.obstacles = {}
+    self.obstacles = {
+        Obstacle.new({
+            position = {6, 6}
+        })
+    }
     self.food      = {}
     self.ammo      = {}
     return self
@@ -33,6 +38,15 @@ function map:tick()
     end
 end
 
+function map:is_clear(x, y)
+    for _, ob in pairs(self.obstacles) do
+        if ob.position[1] == x and ob.position[2] == y then
+            return false
+        end
+    end
+    return true
+end
+
 function map:draw()
     for j = 1, self.height do
         for i = 1, self.width do
@@ -41,6 +55,11 @@ function map:draw()
             love.graphics.setColor(0.1, 0.1, 0.5)
             love.graphics.rectangle("line", (i-1) * 16, (j-1) * 16, 16, 16)
         end
+    end
+    love.graphics.setColor(0.5, 0, 0)
+    for _, obstacle in pairs(self.obstacles) do
+        local i, j = unpack(obstacle.position)    
+        love.graphics.rectangle("fill", (i-1) * 16, (j-1) * 16, 16, 16)
     end
     love.graphics.setColor(0, 0.5, 0)
     for _, food in pairs(self.food) do
