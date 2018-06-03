@@ -8,42 +8,41 @@ word. B)
 
 ## Roadmap
 
-[X] `snake`: 
-    can move a snake around the screen
-[X] `map`: 
-    maps have a grid
-[X] `snake`,`map`: 
-    snakes loop round the map
-[X] `map`:
-    fruit spawn on the map
-[X] `snake`:
-    snake grows in finding food
-[X] `map`:
-    obstacles on map
-[X] `snake`:
-    snake dies on hitting obstacle (and self)
-[ ] `map`:
-    ammunition spawns on the map
-[ ] `snake`:
-    snake can shoot if it has bullets
-[ ] `snake`:
-    snake is split in two if hit by a bullet
-[ ] `game`:
-    score exists, and increases upon eating food
-[ ] `game`:
-    game over screen
-[ ] `game`:
-    juice
-        screenshake on losing
-        screenshake on being shot
-        particle effects on food, and eating, and being shot, and shooting, and
-        bullets, and special tiles?
+  * [X] `snake`: 
+        can move a snake around the screen
+  * [X] `map`: 
+        maps have a grid
+  * [X] `snake`,`map`: 
+        snakes loop round the map
+  * [X] `map`:
+        fruit spawn on the map
+  * [X] `snake`:
+        snake grows in finding food
+  * [X] `map`:
+        obstacles on map
+  * [X] `snake`:
+        snake dies on hitting obstacle (and self)
+  * [ ] `map`:
+        ammunition spawns on the map
+  * [ ] `snake`:
+        snake can shoot if it has bullets
+  * [ ] `snake`:
+        snake is split in two if hit by a bullet
+  * [ ] `game`:
+        score exists, and increases upon eating food
+  * [ ] `game`:
+        game over screen
+  * [ ] `game`:
+        juice
+          - screenshake on losing
+          - screenshake on being shot
+          - particle effects on food, and eating, and being shot, and shooting, and
+          - bullets, and special tiles?
 
-[ ] `game`:
-    menu screen
-
-[ ] `game`:
-    customisable controls
+  * [ ] `game`:
+        menu screen
+  * [ ] `game`:
+        customisable controls
 
 
 ## Feature Creep
