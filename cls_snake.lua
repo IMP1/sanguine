@@ -8,9 +8,9 @@ function snake.new(x, y, length, dir)
     self.direction = dir
     self.next_direction = dir
     self.body = {}
-    self.to_grow = 0
+    self.to_grow = {}
     self.ammo = 0
-    self:grow(length - 1)
+    self:eat(length - 1)
     return self
 end
 
@@ -18,8 +18,20 @@ function snake:size()
     return #self.body + 1
 end
 
-function snake:grow(n)
-    self.to_grow = self.to_grow + (n or 1)
+function snake:eat(n)
+    for i = 1, (n or 1) do
+        table.insert(self.to_grow, 0)
+    end
+end
+
+function snake:grow(x, y)
+    for i = #self.to_grow, 1, -1 do
+        self.to_grow[i] = self.to_grow[i] + 1
+        if self.to_grow[i] == self:size() then
+            table.insert(self.body, {x, y})
+            table.remove(self.to_grow, i)
+        end
+    end
 end
 
 function snake:turn_to(dir)
@@ -50,21 +62,22 @@ function snake:tick()
         self.body[i] = { next_x, next_y }
         next_x, next_y = x, y
     end
-    -- Grow
-    if self.to_grow > 0 then
-        table.insert(self.body, {x, y})
-        self.to_grow = self.to_grow - 1
-    end
+    self:grow(x, y)
 end
 
 function snake:draw()
     love.graphics.setColor(1, 1, 1)
     local x, y = unpack(self.head_position)
-    love.graphics.rectangle("fill", (x-1) * 16, (y-1) * 16, 15, 15)
+    love.graphics.rectangle("fill", (x-1) * 16 + 1, (y-1) * 16 + 1, 14, 14)
     love.graphics.setColor(0.8, 0.8, 0.8)
     for i = 1, #self.body do
-        x, y = unpack(self.body[i])
-        love.graphics.rectangle("fill", (x-1) * 16, (y-1) * 16, 15, 15)
+        local size = 12
+        for _, food in pairs(self.to_grow) do
+            if i == food then size = size + 2 end
+        end
+        local x = (self.body[i][1] - 1) * 16 + ((16 - size) / 2)
+        local y = (self.body[i][2] - 1) * 16 + ((16 - size) / 2)
+        love.graphics.rectangle("fill", x, y, size, size)
     end
 end
 

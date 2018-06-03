@@ -1,7 +1,7 @@
 Snake = require 'cls_snake'
 Map   = require 'cls_map'
 
-tick_duration = 0.5
+tick_duration = 0.1
 
 function love.load()
     snake = Snake.new(4, 4, 3, 0)
@@ -9,17 +9,7 @@ function love.load()
     map   = Map.new(20, 20)
 end
 
-function love.update(dt)
-    timer = timer + dt
-    if timer >= tick_duration then
-        tick()
-        timer = timer - tick_duration
-    end
-end
-
-function tick()
-    snake:tick()
-    -- check collision
+local function wrap_snake()
     local x, y = unpack(snake.head_position)
     if x < 1 then
         x = map.width
@@ -35,6 +25,31 @@ function tick()
     end
     snake.head_position = {x, y}
 end
+
+local function eat_food()
+    local x, y = unpack(snake.head_position)
+    local food, i = map:food_at(x, y)
+    if food then
+        table.remove(map.food, i)
+        snake:eat()
+    end
+end
+
+local function tick()
+    snake:tick()
+    wrap_snake()
+    eat_food()
+    map:tick()
+end
+
+function love.update(dt)
+    timer = timer + dt
+    if timer >= tick_duration then
+        tick()
+        timer = timer - tick_duration
+    end
+end
+
 
 function love.keypressed(key)
     if key == "up" then
