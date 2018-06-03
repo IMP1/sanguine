@@ -14,10 +14,12 @@ word. B)
     maps have a grid
 [X] `snake`,`map`: 
     snakes loop round the map
-[ ] `map`:
-    fruit and ammunition spawn on the map
-[ ] `snake`:
+[X] `map`:
+    fruit spawn on the map
+[X] `snake`:
     snake grows in finding food
+[ ] `map`:
+    ammunition spawns on the map
 [ ] `snake`:
     snake can shoot if it has bullets
 [ ] `snake`:
