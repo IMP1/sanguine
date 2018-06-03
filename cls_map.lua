@@ -34,9 +34,11 @@ function map:tick()
 end
 
 function map:draw()
-    love.graphics.setColor(0, 0, 0.2)
     for j = 1, self.height do
         for i = 1, self.width do
+            love.graphics.setColor(0, 0, 0.2)
+            love.graphics.rectangle("fill", (i-1) * 16, (j-1) * 16, 16, 16)
+            love.graphics.setColor(0.1, 0.1, 0.5)
             love.graphics.rectangle("line", (i-1) * 16, (j-1) * 16, 16, 16)
         end
     end
