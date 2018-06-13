@@ -22,7 +22,7 @@ word. B)
         obstacles on map
   * [X] `snake`:
         snake dies on hitting obstacle (and self)
-  * [ ] `map`:
+  * [X] `map`:
         ammunition spawns on the map
   * [ ] `snake`:
         snake can shoot if it has bullets

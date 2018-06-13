@@ -1,4 +1,5 @@
 local Food     = require 'cls_food'
+local Ammo     = require 'cls_ammo'
 local Obstacle = require 'cls_obstacle'
 
 local map = {}
@@ -28,11 +29,35 @@ function map:food_at(x, y)
     return nil
 end
 
+function map:ammo_at(x, y)
+    for index, ammo in pairs(self.ammo) do
+        if ammo.position[1] == x and ammo.position[2] == y then
+            return ammo, index
+        end
+    end
+    return nil
+end
+
 function map:tick()
     if math.random() < 0.2 and #self.food < 3 then
         local x = math.floor(math.random() * self.width) + 1
         local y = math.floor(math.random() * self.width) + 1
+        while not self:is_clear(x, y) do
+            x = math.floor(math.random() * self.width) + 1
+            y = math.floor(math.random() * self.width) + 1
+        end
         table.insert(self.food, Food.new({
+            position = {x, y},    
+        }))
+    end
+    if math.random() < 0.2 and #self.ammo < 3 then
+        local x = math.floor(math.random() * self.width) + 1
+        local y = math.floor(math.random() * self.width) + 1
+        while not self:is_clear(x, y) do
+            x = math.floor(math.random() * self.width) + 1
+            y = math.floor(math.random() * self.width) + 1
+        end
+        table.insert(self.ammo, Ammo.new({
             position = {x, y},    
         }))
     end
@@ -64,6 +89,11 @@ function map:draw()
     love.graphics.setColor(0, 0.5, 0)
     for _, food in pairs(self.food) do
         local i, j = unpack(food.position)    
+        love.graphics.circle("fill", (i-0.5) * 16, (j-0.5) * 16, 6)
+    end
+    love.graphics.setColor(0.2, 0.2, 0.2)
+    for _, ammo in pairs(self.ammo) do
+        local i, j = unpack(ammo.position)    
         love.graphics.circle("fill", (i-0.5) * 16, (j-0.5) * 16, 6)
     end
 end

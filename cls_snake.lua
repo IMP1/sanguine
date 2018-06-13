@@ -10,7 +10,7 @@ function snake.new(x, y, length, dir)
     self.body = {}
     self.to_grow = {}
     self.ammo = 0
-    self:eat(length - 1)
+    self:grow(length - 1)
     return self
 end
 
@@ -18,19 +18,28 @@ function snake:size()
     return #self.body + 1
 end
 
-function snake:eat(n)
-    for i = 1, (n or 1) do
-        table.insert(self.to_grow, 0)
-    end
-end
-
-function snake:grow(x, y)
+local function grow(self, x, y)
     for i = #self.to_grow, 1, -1 do
         self.to_grow[i] = self.to_grow[i] + 1
         if self.to_grow[i] == self:size() then
             table.insert(self.body, {x, y})
             table.remove(self.to_grow, i)
         end
+    end
+end
+
+function snake:eat(food)
+    self:grow(1)
+end
+
+function snake:collect(ammo)
+    -- IDEA: generalise to other items?
+    self.ammo = self.ammo + 1
+end
+
+function snake:grow(n)
+    for i = 1, (n or 1) do
+        table.insert(self.to_grow, 0)
     end
 end
 
@@ -86,7 +95,7 @@ function snake:tick(game)
         next_x, next_y = x, y
     end
     if #self.to_grow > 0 then
-        self:grow(x, y)
+        grow(self, x, y)
     end
 end
 
@@ -104,6 +113,8 @@ function snake:draw()
         local y = (self.body[i][2] - 1) * 16 + ((16 - size) / 2)
         love.graphics.rectangle("fill", x, y, size, size)
     end
+    -- TODO: show this somehow (in head of snake? circling round?)
+    love.graphics.print(tostring(self.ammo), x, y)
 end
 
 return snake

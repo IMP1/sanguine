@@ -45,7 +45,16 @@ local function eat_food(self, snake)
     local food, i = self.map:food_at(x, y)
     if food then
         table.remove(self.map.food, i)
-        snake:eat()
+        snake:eat(food)
+    end
+end
+
+local function collect_ammo(self, snake)
+    local x, y = unpack(snake.head_position)
+    local ammo, i = self.map:ammo_at(x, y)
+    if ammo then
+        table.remove(self.map.ammo, i)
+        snake:collect(ammo)
     end
 end
 
@@ -66,6 +75,7 @@ function game:tick()
         snake:tick(self)
         wrap_snake(self, snake)
         eat_food(self, snake)
+        collect_ammo(self, snake)
     end
     self.map:tick()
 end
