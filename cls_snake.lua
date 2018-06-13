@@ -43,6 +43,34 @@ function snake:grow(n)
     end
 end
 
+function snake:shoot()
+    if self.ammo == 0 then return nil end
+    self.ammo = self.ammo - 1
+    local speed = 240
+    local dx, dy = 0, 0
+    if self.direction == 0 then
+        dx = 1
+    elseif self.direction == 1 then
+        dy = 1
+    elseif self.direction == 2 then
+        dx = -1
+    elseif self.direction == 3 then
+        dy = -1
+    end
+    local velocity = {
+        dx * speed, dy * speed,
+    }
+    local x, y = unpack(self.head_position)
+    local position = {
+        (x-0.5) * 16 + dx * 10, 
+        (y-0.5) * 16 + dy * 10,
+    }
+    return {
+        position = position,
+        velocity = velocity,
+    }
+end
+
 function snake:turn_to(dir)
     self.next_direction = dir
 end

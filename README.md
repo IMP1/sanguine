@@ -24,7 +24,7 @@ word. B)
         snake dies on hitting obstacle (and self)
   * [X] `map`:
         ammunition spawns on the map
-  * [ ] `snake`:
+  * [X] `snake`:
         snake can shoot if it has bullets
   * [ ] `snake`:
         snake is split in two if hit by a bullet

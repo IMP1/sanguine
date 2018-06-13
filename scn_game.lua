@@ -1,5 +1,6 @@
-local Snake = require 'cls_snake'
-local Map   = require 'cls_map'
+local Snake  = require 'cls_snake'
+local Bullet = require 'cls_bullet'
+local Map    = require 'cls_map'
 
 local base_scene = require 'scn_base'
 
@@ -17,10 +18,11 @@ function game.new()
 end
 
 function game:load()
-    self.player = Snake.new(4, 4, 3, 0)
-    self.snakes = {self.player}
-    self.timer  = 0
-    self.map    = Map.new(20, 20)
+    self.player  = Snake.new(4, 4, 3, 0)
+    self.snakes  = {self.player}
+    self.bullets = {}
+    self.timer   = 0
+    self.map     = Map.new(20, 20)
 end
 
 local function wrap_snake(self, snake)
@@ -81,19 +83,25 @@ function game:tick()
 end
 
 function game:keyPressed(key)
-    if key == "up" then
+    if key == "up" or key == "w" then
         self.player:turn_to(3)
     end
-    if key == "left" then
+    if key == "left" or key == "a" then
         self.player:turn_to(2)
     end
-    if key == "down" then
+    if key == "down" or key == "s" then
         self.player:turn_to(1)
     end
-    if key == "right" then
+    if key == "right" or key == "d" then
         self.player:turn_to(0)
     end
     if key == "space" then
+        local b = self.player:shoot()
+        if b then
+            table.insert(self.bullets, Bullet.new(b))
+        end
+    end
+    if key == "p" then
         self.paused = not self.paused
     end
 end
@@ -105,12 +113,18 @@ function game:update(dt)
         self:tick()
         self.timer = self.timer - self.tick_duration
     end
+    for _, bullet in pairs(self.bullets) do
+        bullet:update(self, dt)
+    end
 end
 
 function game:draw()
     self.map:draw()
     for _, snake in pairs(self.snakes) do
         snake:draw()
+    end
+    for _, bullet in pairs(self.bullets) do
+        bullet:draw()
     end
 end
 
