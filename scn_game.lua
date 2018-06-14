@@ -95,26 +95,26 @@ function game:keyPressed(key)
     if key == "right" or key == "d" then
         self.player:turn_to(0)
     end
-    if key == "space" then
+    if key == "lctrl" or key == "rctrl" then
         local b = self.player:shoot()
         if b then
             table.insert(self.bullets, Bullet.new(b))
         end
     end
-    if key == "p" then
+    if key == "p" or key == "escape" then
         self.paused = not self.paused
     end
 end
 
 function game:update(dt)
     if self.paused then return end
+    for _, bullet in pairs(self.bullets) do
+        bullet:update(self, dt)
+    end
     self.timer = self.timer + dt
     if self.timer >= self.tick_duration then
         self:tick()
         self.timer = self.timer - self.tick_duration
-    end
-    for _, bullet in pairs(self.bullets) do
-        bullet:update(self, dt)
     end
 end
 

@@ -57,13 +57,15 @@ function snake:shoot()
     elseif self.direction == 3 then
         dy = -1
     end
+    local ox = 16 * dx
+    local oy = 16 * dy
     local velocity = {
         dx * speed, dy * speed,
     }
-    local x, y = unpack(self.head_position)
+    local i, j = unpack(self.head_position)
     local position = {
-        (x-0.5) * 16 + dx * 10, 
-        (y-0.5) * 16 + dy * 10,
+        (i-0.5) * 16 + ox, 
+        (j-0.5) * 16 + oy,
     }
     return {
         position = position,
