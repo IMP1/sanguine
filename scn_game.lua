@@ -60,6 +60,11 @@ local function collect_ammo(self, snake)
     end
 end
 
+local function handle_bullet_impact(self, bullet)
+    -- @TODO: get tile of impact
+    -- @TODO: if tile is on snake, split snake at that point.
+end
+
 function game:is_clear(x, y)
     if not self.map:is_clear(x, y) then
         return false
@@ -108,8 +113,16 @@ end
 
 function game:update(dt)
     if self.paused then return end
-    for _, bullet in pairs(self.bullets) do
+    local bullet_impacts = {}
+    for index, bullet in pairs(self.bullets) do
         bullet:update(self, dt)
+        if bullet.is_finished then
+            table.insert(bullet_impacts, index)
+        end
+    end
+    for _, index in pairs(bullet_impacts) do
+        local bullet = table.remove(self.bullets, index)
+        handle_bullet_impact(self, bullet)
     end
     self.timer = self.timer + dt
     if self.timer >= self.tick_duration then
