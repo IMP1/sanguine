@@ -103,6 +103,7 @@ function game:tick()
         end
     end
     if self.player.is_dead then
+        self:load()
         self.paused = true
         -- @TODO: go to gameover.
     end
