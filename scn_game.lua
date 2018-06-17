@@ -88,11 +88,23 @@ function game:is_clear(x, y)
 end
 
 function game:tick()
+    local dead_snakes = {}
     for _, snake in pairs(self.snakes) do
         snake:tick(self)
         wrap_snake(self, snake)
-        eat_food(self, snake)
-        collect_ammo(self, snake)
+        if not snake.is_dead then
+            eat_food(self, snake)
+            collect_ammo(self, snake)
+        end
+    end
+    for i = #self.snakes, 1, -1 do
+        if self.snakes[i].is_dead then
+            table.remove(self.snakes, i)
+        end
+    end
+    if self.player.is_dead then
+        self.paused = true
+        -- @TODO: go to gameover.
     end
     self.map:tick()
 end

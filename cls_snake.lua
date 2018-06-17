@@ -168,7 +168,7 @@ function snake:tick(game)
     end
     local x, y = unpack(self.head_position)
     if not game:is_clear(x + dx, y + dy) then
-        game:load()
+        self.is_dead = true
         return
     end
     self.head_position = { x + dx, y + dy }
