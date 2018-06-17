@@ -20,6 +20,7 @@ function bullet:update(game, dt)
     if game:is_clear(i, j) then
         self.position = {x, y}
     else
+        self.next_tile = {i, j}
         self.is_finished = true
     end
 end

@@ -61,8 +61,18 @@ local function collect_ammo(self, snake)
 end
 
 local function handle_bullet_impact(self, bullet)
-    -- @TODO: get tile of impact
-    -- @TODO: if tile is on snake, split snake at that point.
+    local i, j = unpack(bullet.next_tile)
+    for _, snake in pairs(self.snakes) do
+        if snake:is_over(i, j) then
+            print("Bullet hitting snake...")
+            local split_snake = snake:split(i, j)
+            if split_snake then
+                table.insert(self.snakes, split_snake)
+            end
+        end
+    end
+    -- @TODO: play little impact animation 
+    --        (explosion on tiles, something else on snakes?)
 end
 
 function game:is_clear(x, y)
@@ -111,6 +121,32 @@ function game:keyPressed(key)
     end
 end
 
+-- @TODO: remove DEBUGGING
+function game:mousePressed(mx, my, key)
+    local i = math.floor(mx / 16) + 1
+    local j = math.floor(my / 16) + 1
+    local speed = 240
+
+    table.insert(self.bullets, Bullet.new({
+        position = {mx, my},
+        velocity = {speed, 0}
+    }))
+    table.insert(self.bullets, Bullet.new({
+        position = {mx, my},
+        velocity = {0, speed}
+    }))
+    table.insert(self.bullets, Bullet.new({
+        position = {mx, my},
+        velocity = {-speed, 0}
+    }))
+    table.insert(self.bullets, Bullet.new({
+        position = {mx, my},
+        velocity = {0, -speed}
+    }))
+end
+
+
+
 function game:update(dt)
     if self.paused then return end
     local bullet_impacts = {}
@@ -139,6 +175,9 @@ function game:draw()
     for _, bullet in pairs(self.bullets) do
         bullet:draw()
     end
+
+    love.graphics.print(self.player:size(), 256, 0)
+
 end
 
 return game

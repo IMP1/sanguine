@@ -28,6 +28,34 @@ local function grow(self, x, y)
     end
 end
 
+local function body_part_direction(self, body_part_index)
+    local target = self.head_position
+    if body_part_index > 1 then
+        target = self.body[body_part_index - 1]
+    end
+    local body_part = self.body[body_part_index]
+    local dx = target[1] - body_part[1]
+    local dy = target[2] - body_part[2]
+    print(dx, dy)
+
+    --   dx     dy      direction
+    --    1     0         0
+    --    0     1         1
+    --   -1     0         2
+    --    0    -1         3
+
+    local direction = 0
+
+    if dx + dy < 0 then
+        direction = direction + 2
+    end
+    if dy ~= 0 then
+        direction = direction + 1
+    end
+
+    return direction
+end
+
 function snake:eat(food)
     self:grow(1)
 end
@@ -41,6 +69,32 @@ function snake:grow(n)
     for i = 1, (n or 1) do
         table.insert(self.to_grow, 0)
     end
+end
+
+function snake:split(x, y)
+    -- Impact on snake's head does nothing
+    -- (snakes have tough heads?)
+    if self:is_at(x, y) then return end
+
+    local split_index = 0
+    for i, pos in pairs(self.body) do
+        if pos[1] == x and pos[2] == y then
+            split_index = i
+        end
+    end
+    if split_index == 0 then return end
+
+    local dir = body_part_direction(self, split_index)
+    local split_snake_body = {}
+    for i = split_index + 1, #self.body do
+        local body_part = table.remove(self.body, split_index+1)
+        table.insert(split_snake_body, body_part)
+    end
+    local new_snake_head = table.remove(self.body, split_index)
+    local x, y = unpack(new_snake_head)
+    local new_snake = snake.new(x, y, 1, dir)
+    new_snake.body = split_snake_body
+    return new_snake
 end
 
 function snake:shoot()
@@ -81,8 +135,8 @@ function snake:is_over(x, y)
     if self:is_at(x, y) then 
         return true 
     end
-    for _, point in pairs(self.body) do
-        if x == point[1] and y == point[2] then
+    for _, pos in pairs(self.body) do
+        if x == pos[1] and y == pos[2] then
             return true
         end
     end
