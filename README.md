@@ -26,7 +26,7 @@ word. B)
         ammunition spawns on the map
   * [X] `snake`:
         snake can shoot if it has bullets
-  * [ ] `snake`:
+  * [X] `snake`:
         snake is split in two if hit by a bullet
   * [ ] `game`:
         score exists, and increases upon eating food
